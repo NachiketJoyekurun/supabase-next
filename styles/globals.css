@@ -1,0 +1,35 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-zinc-900 text-white
+  }
+}
+
+@layer components {
+  button {
+    @apply items-center px-4 py-2 border text-sm font-medium rounded-md text-gray-400 bg-gray-800 hover:border-[#f35815] hover:bg-transparent capitalize cursor-pointer;
+  }
+  
+  .footerLink {
+    @apply text-[#f35815] cursor-pointer;
+  }
+  
+  .navLink {
+    @apply mr-8 text-[#f35815] cursor-pointer;
+  }
+  
+  .navButton {
+    @apply border border-[#f35815] rounded-md bg-transparent text-[#d8d8d8] px-8 py-1.5 ease-in-out duration-300;
+  }
+
+  .form{
+    @apply border border-[#f35815] rounded-md w-11/12 md:w-2/4 h-auto flex flex-col gap-4 p-4 justify-center m-auto;
+  }
+
+  .textfield {
+    @apply p-2 text-black
+  }
+ }
