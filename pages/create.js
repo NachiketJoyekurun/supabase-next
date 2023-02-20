@@ -22,7 +22,7 @@ const create = () => {
 
     const createWorkout = async () => {
         const user = supabase.auth.user();
-        if (window.navigator.onLine == true) {
+        if (window.navigator.onLine == false) {
             try {
 
                 const { data, error } = await supabase
