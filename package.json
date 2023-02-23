@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "prettier": "prettier --write \"**/*.js\" --ignore-path .prettierignore",
-    "eslint": "eslint --ignore-pattern \"node_modules/*\" --ignore-pattern \".next/*\" \"**/*.js\""
+    "eslint": "eslint"
   },
   "dependencies": {
     "@next/font": "13.1.6",
