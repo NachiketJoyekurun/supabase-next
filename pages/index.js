@@ -125,8 +125,6 @@ const index = ({
         return <p className='text-center'>Fetching Workouts...</p>;
     }
 
-    console.log('index data: ' + indexData)
-
     return (
         <div className='h-screen'>
             {!session?.user ?
