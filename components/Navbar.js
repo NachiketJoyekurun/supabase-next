@@ -5,9 +5,11 @@ import Registratration from './buttons/Button'
 const Navbar = ({ session }) => {
     return (
         <nav className='flex justify-between items-center p-3 mx-6'>
+
             <div>
                 <p className='text-lg font-bold'>Workout</p>
             </div>
+
             {session?.user ? (
                 <ul className='flex items-center gap-3'>
                     <NavigationLinks href={'/'} title={'Home'} />
@@ -22,6 +24,7 @@ const Navbar = ({ session }) => {
                     <NavigationLinks href={'/signup'} title={'Signup'} />
                 </ul>
             )}
+
         </nav>
     )
 }
