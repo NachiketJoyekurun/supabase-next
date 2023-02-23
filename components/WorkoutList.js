@@ -1,6 +1,5 @@
 import { db } from '@/services/db';
 import { useLiveQuery } from 'dexie-react-hooks'
-import Link from 'next/link';
 import Button from './buttons/Button';
 
 const WorkoutList = () => {
@@ -11,7 +10,7 @@ const WorkoutList = () => {
             return workout;
         }, []
     )
-
+    
     const deleteItem = async (id) => {
         try {
             const dltWorkout = await db.workout

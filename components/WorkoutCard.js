@@ -7,7 +7,7 @@ const WorkoutCard = ({
     handleDelete
 }) => {
     return (
-        <div className='grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-4 mx-6'>
+        <div className='grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-4 m-6'>
             {data?.map((item) => (
                 <div
                     className='border border-[#f35815] text-justify p-4 rounded-md'

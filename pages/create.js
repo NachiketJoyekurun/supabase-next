@@ -1,4 +1,3 @@
-import WorkoutList from '@/components/WorkoutList';
 import { db } from '@/services/db';
 import { supabase } from '@/utils/supabase';
 import { useRouter } from 'next/router'
@@ -22,9 +21,11 @@ const create = () => {
 
     const createWorkout = async () => {
         const user = supabase.auth.user();
-        if (window.navigator.onLine == false) {
-            try {
+        const userUId = JSON.parse(localStorage.getItem('supabase.auth.token')).currentSession.user.id;
+        console.log(userUId);
 
+        if (window.navigator.onLine == true) {
+            try {
                 const { data, error } = await supabase
                     .from("workouts")
                     .insert([
@@ -36,29 +37,32 @@ const create = () => {
                         }
                     ])
                     .single();
+
                 if (error) throw error;
+
                 alert("Workout created successfully");
+
                 setWorkoutData(initialState);
                 router.push("/");
-                console.log("Workout created successfully and online with user: " + user.id);
+
             }
             catch {
                 alert("Error: " + error.message);
             }
         }
+
         else {
             try {
                 const id = await db.workout.add({
                     loads,
                     reps,
                     title,
-                    user_id: user?.id,
+                    user_id: userUId,
                 })
 
                 console.log(`A new workout ${title} was successfully added with id ${id}`)
                 setWorkoutData(initialState);
                 router.push("/");
-                console.log("Workout created successfully and offline");
             }
             catch (error) {
                 alert("Error: " + error.message);
