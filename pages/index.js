@@ -46,36 +46,30 @@ const index = ({
         db.open();
 
         async function getAllItems() {
-            const items = await db.table(indexDbTable).toArray();
-            console.log('Items Lengt: ' + items.length + ', and ,' + JSON.stringify(items));
+            const table = db.table(indexDbTable);
+            const items = await table.toArray();
+            console.log('Items Length: ' + items.length + ', and ,' + JSON.stringify(items));
 
-            const { indexData, error } = await supabase
-                .from("workouts")
-                .upsert(items, { onConflict: 'id' });
+            items.forEach(async (item) => {
+                const { id, ...indexData } = item; 
+                const { indexData: newData, error } = await supabase
+                    .from("workouts")
+                    .insert(indexData);
 
-                setIndexData(indexData);
+                    setIndexData(indexData);
 
-            if (error) {
-                console.log('Error pushing items to Supabase:', error);
-            } else {
-                console.log('Items pushed to Supabase:', indexData);
-            }
+                    if (error) {
+                        console.log('Error pushing items to Supabase:', error);
+                    } else {
+                        console.log('Item pushed to Supabase:', indexData);
+                        await table.delete(item.id);
+                    }
+            })
 
         }
 
         getAllItems();
 
-    }
-
-    const clearIndexedDb = async () => {
-        db.open();
-        console.log(db)
-
-        async function clearTable() {
-            await db.table(indexDbTable).clear();
-            console.log('all items cleared');
-        }
-        clearTable();
     }
 
     const handleDelete = async (id) => {
@@ -107,6 +101,13 @@ const index = ({
 
         fetchWorkouts();
 
+        if (isOnline) {
+            console.log("Online...");
+            getAllIndexDb();
+        } else {
+            console.log('Offline...')
+        }
+
         return () => {
             window.removeEventListener('online', handleOnline);
             window.removeEventListener('offline', handleOffline);
@@ -114,26 +115,19 @@ const index = ({
 
     }, [])
 
-    if (isOnline) {
-        console.log("Online...");
-        getAllIndexDb();
-    } else {
-        console.log('Offline...')
-    }
-
     if (loading) {
         return <p className='text-center'>Fetching Workouts...</p>;
     }
 
     return (
-        <div className='h-screen'>
+        <div>
             {!session?.user ?
                 (
                     <h1 className='text-center'>Welcome to Adrenargy, Kindly login to your account or sign in for a demo</h1>
                 ) : (
                     <div className='text-center'>
                         {data.length === 0 && indexData === 0 && isOnline ? (
-                            <div className='flex flex-col justify-center items-center mt-72'>
+                            <div>
                                 <Welcome session={session.user.email.split('@')[0]} />
                                 <p className='my-4'>You have no workouts yet... ╯︿╰</p>
                                 <Link href="/create">

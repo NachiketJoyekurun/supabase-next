@@ -1,14 +1,15 @@
 import { supabase } from '@/utils/supabase'
 import NavigationLinks from './buttons/NavigationLinks'
 import Registratration from './buttons/Button'
+import Link from 'next/link'
 
 const Navbar = ({ session }) => {
     return (
         <nav className='flex justify-between items-center p-3 mx-6'>
 
-            <div>
+            <Link href={'/'}>
                 <p className='text-lg font-bold'>Workout</p>
-            </div>
+            </Link>
 
             {session?.user ? (
                 <ul className='flex items-center gap-3'>

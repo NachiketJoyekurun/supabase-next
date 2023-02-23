@@ -19,7 +19,7 @@ const _app = ({
 
 
     return (
-        <div className='flex justify-between flex-col h-full md:h-screen'>
+        <div className='flex justify-between flex-col min-h-screen md:h-screen'>
             <Navbar session={session} />
             <Component {...pageProps} session={session} />
             <Footer />
