@@ -1,15 +1,12 @@
-import Link from 'next/link'
-import React from 'react'
+import Link from 'next/link';
+import React from 'react';
 
-const NavigationLinks = ({
-  href,
-  title
-}) => {
+const NavigationLinks = ({ href, title }) => {
   return (
     <Link href={href}>
-      <li className='navButton'>{title}</li>
+      <li className="navButton">{title}</li>
     </Link>
-  )
-}
+  );
+};
 
-export default NavigationLinks
+export default NavigationLinks;
