@@ -6,7 +6,7 @@ import { supabase } from '@/utils/supabase';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 
-const index = ({ session }) => {
+const Index = ({ session }) => {
   const [data, setData] = useState([]);
   const [indexData, setIndexData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -106,7 +106,7 @@ const index = ({ session }) => {
       window.removeEventListener('online', handleOnline);
       window.removeEventListener('offline', handleOffline);
     };
-  }, []);
+  }, [isOnline]);
 
   if (loading) {
     return <p className="text-center">Fetching Workouts...</p>;
@@ -155,4 +155,4 @@ const index = ({ session }) => {
   );
 };
 
-export default index;
+export default Index;

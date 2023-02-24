@@ -3,7 +3,7 @@ import { supabase } from '@/utils/supabase';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 
-const create = () => {
+const Create = () => {
   const initialState = {
     title: '',
     loads: '',
@@ -104,4 +104,4 @@ const create = () => {
   );
 };
 
-export default create;
+export default Create;

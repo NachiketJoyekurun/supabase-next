@@ -2,7 +2,7 @@ import Registratration from '@/components/buttons/Button';
 import { supabase } from '@/utils/supabase';
 import React, { useState } from 'react';
 
-const signup = () => {
+const Signup = () => {
   const initialState = {
     email: '',
     password: '',
@@ -51,4 +51,4 @@ const signup = () => {
   );
 };
 
-export default signup;
+export default Signup;

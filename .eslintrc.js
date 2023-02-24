@@ -1,23 +1,30 @@
-export default {
-    "env": {
-        "browser": true,
-        "es2021": true
+module.exports = {
+    parserOptions: {
+        ecmaVersion: 2020,
+        sourceType: 'module',
     },
-    "extends": [
-        "eslint:recommended",
-        "plugin:react/recommended",
-        "plugin:react-hooks/recommended"
-    ],
-    "overrides": [
-    ],
-    "parserOptions": {
-        "ecmaVersion": "latest",
-        "sourceType": "module"
+    env: {
+        browser: true,
+        es2020: true,
+        node: true,
     },
-    "plugins": [
-        "react",
-        "react-hooks"
+    extends: [
+        'next',
     ],
-    "rules": {
-    }
-}
+    plugins: [
+        'react',
+        'react-hooks'
+    ],
+    rules: {
+        semi: ['error', 'always'],
+    },
+    ignorePatterns: [
+        '/node_modules/*',
+        '/.next/*',
+        '/public/sw.js',
+        '/public/workbox-327c579b.js',
+        '/tailwind.config.js',
+        '/next.config.js',
+        '/postcss.config.js'
+    ],
+};
