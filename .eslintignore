@@ -1,7 +1,0 @@
-/node_modules
-/.next/
-/public/sw.js
-/public/workbox-327c579b.js
-/tailwind.config.js
-/next.config.js
-/postcss.config.js
