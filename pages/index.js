@@ -103,7 +103,7 @@ const Index = ({ session }) => {
       window.removeEventListener('online', handleOnline);
       window.removeEventListener('offline', handleOffline);
     };
-  }, [isOnline]);
+  }, []);
 
   if (loading) {
     return <p className="text-center">Fetching Workouts...</p>;
