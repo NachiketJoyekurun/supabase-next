@@ -43,9 +43,6 @@ const Index = ({ session }) => {
     async function getAllItems() {
       const table = db.table(indexDbTable);
       const items = await table.toArray();
-      console.log(
-        'Items Length: ' + items.length + ', and ,' + JSON.stringify(items)
-      );
 
       items.forEach(async (item) => {
         const { id, ...indexData } = item;
