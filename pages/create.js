@@ -1,7 +1,7 @@
 import { db } from '@/services/db';
 import { supabase } from '@/utils/supabase';
 import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 const Create = () => {
   const initialState = {
@@ -24,49 +24,36 @@ const Create = () => {
     const userUId = JSON.parse(localStorage.getItem('supabase.auth.token'))
       .currentSession.user.id;
 
-    useEffect(async () => {
-      if (window.navigator.onLine == true) {
-        try {
-          const { data, error } = await supabase
-            .from('workouts')
-            .insert([
-              {
-                title,
-                loads,
-                reps,
-                user_id: user?.id,
-              },
-            ])
-            .single();
+      try {
+        const { data, error } = await supabase
+          .from('workouts')
+          .insert([
+            {
+              title,
+              loads,
+              reps,
+              user_id: user?.id,
+            },
+          ])
+          .single();
 
-          if (error) throw error;
+        if (error) throw error;
 
-          alert('Workout created successfully');
+        alert('Workout created successfully');
 
-          setWorkoutData(initialState);
-          router.push('/');
-        } catch {
-          alert('Error: ' + error.message);
-        }
-      } else {
-        try {
-          const id = await db.workout.add({
-            loads,
-            reps,
-            title,
-            user_id: userUId,
-          });
+        setWorkoutData(initialState);
+        router.push('/');
 
-          console.log(
-            `A new workout ${title} was successfully added with id ${id}`
-          );
-          setWorkoutData(initialState);
-          router.push('/');
-        } catch (error) {
-          alert('Error: ' + error.message);
-        }
+      } catch (error) {
+        const id = await db.workout.add({
+          loads,
+          reps,
+          title,
+          user_id: userUId,
+        });
+        setWorkoutData(initialState);
+        router.push('/');
       }
-    }, [])
   };
 
   return (

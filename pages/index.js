@@ -50,14 +50,8 @@ const Index = ({ session }) => {
           .from('workouts')
           .insert(indexData);
 
-        setIndexData(indexData);
-
-        if (error) {
-          console.log('Error pushing items to Supabase:', error);
-        } else {
-          console.log('Item pushed to Supabase:', indexData);
-          await table.delete(item.id);
-        }
+        setIndexData(newData);
+        await table.delete(item.id);
       });
     }
 
@@ -92,7 +86,7 @@ const Index = ({ session }) => {
 
     fetchWorkouts();
 
-    if (isOnline) {
+    if (window.navigator.onLine == true) {
       console.log('Online...');
       getAllIndexDb();
     } else {
@@ -103,7 +97,7 @@ const Index = ({ session }) => {
       window.removeEventListener('online', handleOnline);
       window.removeEventListener('offline', handleOffline);
     };
-  }, []);
+  }, [isOnline]);
 
   if (loading) {
     return <p className="text-center">Fetching Workouts...</p>;
