@@ -22,7 +22,7 @@
   }
   
   .navButton {
-    @apply border border-[#f35815] rounded-md bg-transparent text-[#d8d8d8] px-8 py-1.5 ease-in-out duration-300;
+    @apply cursor-pointer rounded-md bg-transparent text-[#d8d8d8] px-2 sm:px-8 py-1.5 ease-in-out duration-300 hover:underline hover:decoration-[#f35815] ;
   }
 
   .form{

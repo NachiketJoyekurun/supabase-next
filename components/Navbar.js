@@ -7,7 +7,7 @@ const Navbar = ({ session }) => {
   return (
     <nav className="flex justify-between items-center p-3 mx-6">
       <Link href={'/'}>
-        <p className="text-lg font-bold">Workout</p>
+        <p className="text-lg font-bold border p-2 border-[#f35815]">Adrenargy</p>
       </Link>
 
       {session?.user ? (

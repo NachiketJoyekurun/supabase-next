@@ -10,8 +10,8 @@ const Index = ({ session }) => {
   const [data, setData] = useState([]);
   const [indexData, setIndexData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [isOnline, setIsOnline] = useState(true);
   const indexDbTable = 'workout';
+  const [online, setOnline] = useState(true);
 
   const fetchWorkouts = async () => {
     const user = supabase.auth.user();
@@ -30,17 +30,17 @@ const Index = ({ session }) => {
         if (error) throw error;
         setData(data);
       } catch (error) {
-        alert('Error: ' + error.message);
+        console.log(error);
       } finally {
         setLoading(false);
       }
     }
   };
 
-  const getAllIndexDb = async () => {
+  const restore = async () => {
     db.open();
 
-    async function getAllItems() {
+    async function restoreItems() {
       const table = db.table(indexDbTable);
       const items = await table.toArray();
 
@@ -55,7 +55,7 @@ const Index = ({ session }) => {
       });
     }
 
-    getAllItems();
+    restoreItems();
   };
 
   const handleDelete = async (id) => {
@@ -71,33 +71,38 @@ const Index = ({ session }) => {
       fetchWorkouts();
 
       if (error) throw error;
-      alert('Workout deleted successfully');
     } catch (error) {
       alert(error.message);
     }
   };
 
   useEffect(() => {
-    const handleOnline = () => setIsOnline(true);
-    const handleOffline = () => setIsOnline(false);
+    if (typeof window !== 'undefined') {
+      setOnline(navigator.onLine);
 
-    window.addEventListener('online', handleOnline);
-    window.addEventListener('offline', handleOffline);
+    function handleOnline() {
+      setOnline(true);
+    }
+
+    function handleOffline() {
+      setOnline(false);
+    }
+
+    if (window.navigator.onLine == true) {
+      restore();
+    }
 
     fetchWorkouts();
 
-    if (window.navigator.onLine == true) {
-      console.log('Online...');
-      getAllIndexDb();
-    } else {
-      console.log('Offline...');
-    }
+    window.addEventListener('online', handleOnline);
+    window.addEventListener('offline', handleOffline);
 
     return () => {
       window.removeEventListener('online', handleOnline);
       window.removeEventListener('offline', handleOffline);
     };
-  }, [isOnline]);
+  }
+  }, []);
 
   if (loading) {
     return <p className="text-center">Fetching Workouts...</p>;
@@ -106,44 +111,45 @@ const Index = ({ session }) => {
   return (
     <div>
       {!session?.user ? (
-        <h1 className="text-center">
-          Welcome to Adrenargy, Kindly login to your account or sign in for a
-          demo
-        </h1>
+        <div className='mx-8'>
+          <h1 className="text-2xl font-extrabold text-center sm:text-left sm:text-6xl mb-2">
+            Welcome to Adrenargy,
+          </h1>
+          <p className='text-lg sm:text-2xl'>Kindly login to your account or sign up to continue</p>
+        </div>
       ) : (
-        <div className="text-center">
-          {data.length === 0 && indexData === 0 && isOnline ? (
-            <div>
-              <Welcome session={session.user.email.split('@')[0]} />
-              <p className="my-4">You have no workouts yet... ╯︿╰</p>
-              <Link href="/create">
-                <button>Create New Workout</button>
-              </Link>
-            </div>
-          ) : (
-            <div>
-              {data.length !== 0 && isOnline ? (
+          <div className='text-center'>
+            {online ?
+              (
                 <div>
+                  <Welcome session={session.user.email.split('@')[0]} />
                   <h1 className="text-xl">Here are your workouts:</h1>
                   <WorkoutCard data={data} handleDelete={handleDelete} />
                   <Link href="/create">
-                    <button>Create New Workout</button>
+                    <button className='mb-3'>Create New Workout</button>
                   </Link>
                 </div>
-              ) : (
-                <div>
-                  <WorkoutList />
-                  <Link href="/create">
-                    <button>Create New Workout</button>
-                  </Link>
-                </div>
+              )
+              :
+              (
+                <>
+                  {indexData !== 0 &&
+                    <div>
+                      <h1 className="text-xl">Here are your workouts:</h1>
+                      <WorkoutList />
+                      <Link href="/create">
+                        <button className='mb-3'>Create New Workout</button>
+                      </Link>
+                    </div>
+                  }
+
+                </>
               )}
-            </div>
-          )}
-        </div>
+          </div>
       )}
     </div>
   );
+
 };
 
 export default Index;

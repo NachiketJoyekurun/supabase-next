@@ -18,7 +18,7 @@ const Login = () => {
   };
 
   return (
-    <div className="form">
+    <div className="form backdrop-blur-xl">
       <input
         type="text"
         value={email}

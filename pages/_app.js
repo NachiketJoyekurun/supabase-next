@@ -1,6 +1,7 @@
 import Footer from '@/components/Footer';
 import Navbar from '@/components/Navbar';
 import { supabase } from '@/utils/supabase';
+import Head from 'next/head';
 import { useEffect, useState } from 'react';
 import '../styles/globals.css';
 
@@ -15,11 +16,16 @@ const _app = ({ Component, pageProps }) => {
   }, []);
 
   return (
-    <div className="flex justify-between flex-col min-h-screen md:h-screen">
+    <>
+    <Head>
+      <title>Adrenargy</title>
+    </Head>
+    <div className="flex justify-between flex-col min-h-screen md:h-screen bg-cover bg-[url('/img/workout.png')]">
       <Navbar session={session} />
       <Component {...pageProps} session={session} />
       <Footer />
     </div>
+    </>
   );
 };
 

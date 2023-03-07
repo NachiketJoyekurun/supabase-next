@@ -24,40 +24,38 @@ const Create = () => {
     const userUId = JSON.parse(localStorage.getItem('supabase.auth.token'))
       .currentSession.user.id;
 
-      try {
-        const { data, error } = await supabase
-          .from('workouts')
-          .insert([
-            {
-              title,
-              loads,
-              reps,
-              user_id: user?.id,
-            },
-          ])
-          .single();
+    try {
+      const { data, error } = await supabase
+        .from('workouts')
+        .insert([
+          {
+            title,
+            loads,
+            reps,
+            user_id: user?.id,
+          },
+        ])
+        .single();
 
-        if (error) throw error;
+      if (error) throw error;
 
-        alert('Workout created successfully');
+      setWorkoutData(initialState);
+      router.push('/');
 
-        setWorkoutData(initialState);
-        router.push('/');
-
-      } catch (error) {
-        const id = await db.workout.add({
-          loads,
-          reps,
-          title,
-          user_id: userUId,
-        });
-        setWorkoutData(initialState);
-        router.push('/');
-      }
+    } catch (error) {
+      const id = await db.workout.add({
+        loads,
+        reps,
+        title,
+        user_id: userUId,
+      });
+      setWorkoutData(initialState);
+      router.push('/');
+    }
   };
 
   return (
-    <div className="form text-center">
+    <div className="form text-center backdrop-blur-xl">
       <p>Create a New Workout</p>
       <label>Title:</label>
       <input
@@ -70,7 +68,7 @@ const Create = () => {
       />
       <label>Load (kg):</label>
       <input
-        type="text"
+        type="number"
         name="loads"
         value={loads}
         onChange={handleChange}
@@ -79,7 +77,7 @@ const Create = () => {
       />
       <label>Reps:</label>
       <input
-        type="text"
+        type="number"
         name="reps"
         value={reps}
         onChange={handleChange}

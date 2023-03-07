@@ -50,7 +50,10 @@ const WorkoutList = () => {
           ))}
         </div>
       ) : (
-        <p className="my-4">You have no workouts yet... ╯︿╰</p>
+        <div>
+          <p>You are offline 📶</p>
+          <p className="my-4">You have no workouts yet... ╯︿╰</p>
+        </div>
       )}
     </>
   );
